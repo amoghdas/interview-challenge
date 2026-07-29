@@ -1,0 +1,24 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  padding: .2rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.card {
+  padding: 2em;
+}
+
+.primary-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  margin: 2em 11em 0 11em;
+}

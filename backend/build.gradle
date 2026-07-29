@@ -1,0 +1,49 @@
+plugins {
+    id "idea"
+    id "java"
+    id "org.springframework.boot" version "3.5.12"
+    id "io.spring.dependency-management" version "1.1.6"
+    id "io.freefair.lombok" version "8.10"
+    id "com.github.ben-manes.versions" version "0.51.0"
+    id 'com.diffplug.spotless' version '6.25.0'
+}
+
+group = "com.ford"
+version = "0.0.1-SNAPSHOT"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+repositories {
+    google(); mavenCentral()
+}
+
+spotless {
+    java {
+        googleJavaFormat() // Uses the Google Java Format
+        toggleOffOn('@formatter:off', '@formatter:on') // Allows us to ignore the formatter for certain sections of code
+    }
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+
+    runtimeOnly "com.h2database:h2"
+    runtimeOnly "org.postgresql:postgresql"
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+}
+
+tasks.test.useJUnitPlatform()
+
+tasks.withType(com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask).configureEach {
+    rejectVersionIf {
+        ["snapshot", "rc", "alpha", "beta", "-m"]
+            .any { ck -> it.candidate.version.toLowerCase().contains(ck) }
+    }
+}
